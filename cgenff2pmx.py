@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-import sys, getopt
+import sys, getopt, re, fnmatch
 
 def read_bonds(bond,prm_file):
     file2 = open(prm_file, 'r')
@@ -144,6 +144,8 @@ def main(argv):
     part_pairs=0
     part_angles=0
     part_dihedrals=0
+    part_vs=0
+    part_exclusions=0
     dict_atoms={}
     with open(outputitp, 'w') as f:
         f.write('; $ CGENFF2PMX.py $\n')
@@ -306,7 +308,17 @@ def main(argv):
                     f.writelines(LL+'\n')
                 part_angles=0
                 part_dihedrals=1
-                #print("dihedrals")
+                #print("dihedrals2")
+                continue
+            #elif re.search('[ virtual_sites. ]', LL):
+            #elif fnmatch.fnmatch(LL,"[ virtual_sites? ]"):
+            elif LL=="[ virtual_sites2 ]":
+                with open(outputitp, 'a') as f:
+                    f.writelines('\n')
+                    f.writelines(LL+'\n')
+                part_dihedrals=0
+                part_vs=1
+                #print("VS")
                 continue
             else:
                 # like bonds and angles
@@ -322,6 +334,52 @@ def main(argv):
                         f.write('    '+"".join(line) + "\t")
                     f.writelines('\n')
                 #print(dihedral_ff)
+                continue
+        
+        # Enter virtual site section: nothing to do I guess, just copy
+        if part_vs==1:
+            if LL[0]==";":
+                with open(outputitp, 'a') as f:
+                    f.writelines(LL+'\n')
+                continue
+            elif LL=="[ exclusions ]":
+                with open(outputitp, 'a') as f:
+                    f.writelines('\n')
+                    f.writelines(LL+'\n')
+                part_vs=0
+                part_exclusions=1
+                #print("angles")
+                continue
+            else:
+                pairs_out=LL.split()
+                #print(pairs_out)
+                with open(outputitp, 'a') as f:
+                    for line in pairs_out:
+                        f.write('    '+"".join(line) + "\t")
+                    f.writelines('\n')
+                continue
+        
+        # Enter exclusions section: nothing to do I guess, just copy
+        if part_exclusions==1:
+            if LL[0]==";":
+                with open(outputitp, 'a') as f:
+                    f.writelines(LL+'\n')
+                continue
+            elif LL=="[ exclusions ]":
+                with open(outputitp, 'a') as f:
+                    f.writelines('\n')
+                    f.writelines(LL+'\n')
+                part_vs=0
+                part_exclusions=1
+                #print("angles")
+                continue
+            else:
+                pairs_out=LL.split()
+                #print(pairs_out)
+                with open(outputitp, 'a') as f:
+                    for line in pairs_out:
+                        f.write('    '+"".join(line) + "\t")
+                    f.writelines('\n')
                 continue
 
 
