@@ -1,0 +1,29 @@
+make_hybrid__log_> Reading ligand 1 from: "../lig_A/mol_ini.pdb"
+make_hybrid__log_> Reading ligand 2 from: "../lig_C/mol_ini.pdb"
+make_hybrid__log_> Reading itp file 1 from: "../lig_A/lig_A.itp"
+make_hybrid__log_> Reading itp file 2 from: "../lig_C/lig_C.itp"
+make_hybrid__log_> Assigning forcefield parameters....
+make_hybrid__log_> Making pairs.....
+make_hybrid__log_> Reading file with atom pairs: "pairs1.dat"
+make_hybrid__log_> Generated 11 atom-atom pairs
+make_hybrid__log_> Dummies in state A: 2
+make_hybrid__log_> Dummies in state B: 1
+make_hybrid__log_> Making B-states....
+make_hybrid__log_> Atom....:    1        CG2R61 |  -0.12 |  12.01 ->       CG2R61 |  -0.09 |  12.01
+make_hybrid__log_> Atom....:    2        CG2R61 |  -0.12 |  12.01 ->       CG2R61 |  -0.14 |  12.01
+make_hybrid__log_> Atom....:    3        CG2R61 |  -0.12 |  12.01 ->       CG2R61 |  -0.09 |  12.01
+make_hybrid__log_> Atom....:    4        CG2R61 |  -0.12 |  12.01 ->       CG2R61 |  -0.23 |  12.01
+make_hybrid__log_> Atom....:    5        CG2R61 |  -0.12 |  12.01 ->       CG2R61 |   0.20 |  12.01
+make_hybrid__log_> Atom....:    6        CG2R61 |  -0.12 |  12.01 ->       CG2R61 |  -0.23 |  12.01
+make_hybrid__log_> Atom....:    7         HGR61 |   0.12 |   1.01 ->        HGR61 |   0.12 |   1.01
+make_hybrid__log_> Atom....:    8         HGR61 |   0.12 |   1.01 ->        HGR61 |   0.12 |   1.01
+make_hybrid__log_> Atom....:    9         HGR61 |   0.12 |   1.01 ->        HGR61 |   0.12 |   1.01
+make_hybrid__log_> Atom....:   10         HGR61 |   0.12 |   1.01 ->        HGR62 |   0.18 |   1.01
+make_hybrid__log_> Atom....:   12         HGR61 |   0.12 |   1.01 ->        HGR62 |   0.18 |   1.01
+make_hybrid__log_> Dummy...:   13     DUM_CLGR1 |   0.00 |  35.45 ->        CLGR1 |  -0.17 |  35.45
+make_hybrid__log_> Dummy...:   14       DUM_LPH |   0.00 |   0.00 ->          LPH |   0.05 |   0.00
+make_hybrid__log_> Dummy...:   11         HGR61 |   0.12 |   1.01 ->    DUM_HGR61 |   0.00 |   1.01
+make_hybrid__log_> Generating bonded parameters....
+make_hybrid__log_> Generating new itp file
+make_hybrid__log_> Writing new itp file: "MOL.itp"
+make_hybrid__log_> Writing dummy forcefield file: "ffmerged.itp"

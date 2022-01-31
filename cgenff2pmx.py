@@ -1,25 +1,20 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-import sys, getopt, re, fnmatch
+import sys, getopt
 
 def read_bonds(bond,prm_file):
     file2 = open(prm_file, 'r')
     Lines2 = file2.readlines()
     part_bonds=0
-    
     for line in Lines2:
-        
         if not line.strip(): #skip empty line
             continue
-            
         LL=line.strip()
-        
         # find the bonds section
         if LL == "[ bondtypes ]":
             part_bonds=1
             continue
-
         if part_bonds==1:
             if LL[0]==";":
                 continue
@@ -34,22 +29,15 @@ def read_bonds(bond,prm_file):
                     # return the bond parameter from the .prm
                     return bond_ff
 
-
-
-
 def read_angles(angle,prm_file):
     # similar to read bond but with 3 atoms involved
     file2 = open(prm_file, 'r')
     Lines2 = file2.readlines()
     part_angles=0
-    
     for line in Lines2:
-
         if not line.strip(): #skip empty line
             continue
-            
         LL=line.strip()
-
         if LL == "[ angletypes ]":
             part_angles=1
             continue
@@ -64,28 +52,19 @@ def read_angles(angle,prm_file):
                 if (angle_ff[0:3] == angle) or (angle_ff[0:3] == angle[::-1]) :
                     return angle_ff
 
-
-
-
 def read_dihedrals(dihedral,prm_file):
     # similar to read bond but with 4 atoms involved
     # also works with duplicated dihedral section with impropers from cgenff, but all dihedrals are merged
     file2 = open(prm_file, 'r')
     Lines2 = file2.readlines()
     part_dihedrals=0
-    
     for line in Lines2:
-
         if not line.strip(): #skip empty line
             continue
-            
         LL=line.strip()
-
-
         if LL == "[ dihedraltypes ]":
             part_dihedrals=1
             continue
-
         if part_dihedrals==1:
             if LL[0]==";":
                 continue
@@ -97,13 +76,8 @@ def read_dihedrals(dihedral,prm_file):
                 if (dihedral_ff[0:4] == dihedral) or (dihedral_ff[0:4] == dihedral[::-1]):
                     return dihedral_ff
 
-
-
-
 # MAIN #
 # should handles errors if the bond-angle-dihedral types are missing in the .prm while using read_*
-
-
 def main(argv):
     print(' $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$')
     print(' $            CGENFF2PMX.py          $')
@@ -157,8 +131,7 @@ def main(argv):
     for line in Lines1:
         if not line.strip(): #skip empty line
             continue
-        LL=line.strip()  
-
+        LL=line.strip()
         # Enter moleculetype section: check if it can contains some usefull information but should be ok
         if LL == "[ moleculetype ]":
             if part_moleculetype==0:
@@ -189,7 +162,6 @@ def main(argv):
                         f.write('    '+"".join(line) + "\t")
                     f.writelines('\n')
                 continue
-
         # Enter atoms section: nothing to do, just copy
         if part_atoms==1:
             if LL[0]==";":
@@ -212,7 +184,6 @@ def main(argv):
                 idx_atom=int(LL.split()[0])
                 atom_type=LL.split()[1]
                 dict_atoms[idx_atom]=atom_type
-
         # Enter bonds section: use read_bonds on .prm then copy
         if part_bonds==1:
             if LL[0]==";":
@@ -241,7 +212,6 @@ def main(argv):
                     f.writelines('\n')
                 #print(bond_ff)
                 continue
-
         # Enter pairs section: nothing tot do I guess, just copy
         if part_pairs==1:
             if LL[0]==";":
@@ -264,7 +234,6 @@ def main(argv):
                         f.write('    '+"".join(line) + "\t")
                     f.writelines('\n')
                 continue
-
         # Enter Angles section: use read_angles to extract them from .prm
         if part_angles==1:
             if LL[0]==";":
@@ -294,7 +263,6 @@ def main(argv):
                     f.writelines('\n')
                 #print(angle_ff)
                 continue
-
         # enter in dihedral section: read_dihedrals is called to extract them from .prm
         if part_dihedrals==1:
             if LL[0]==";":
@@ -320,6 +288,22 @@ def main(argv):
                 part_vs=1
                 #print("VS")
                 continue
+            elif LL=="[ virtual_sites3 ]":
+                with open(outputitp, 'a') as f:
+                    f.writelines('\n')
+                    f.writelines(LL+'\n')
+                part_dihedrals=0
+                part_vs=1
+                #print("VS")
+                continue
+            elif LL=="[ exclusions ]":
+                with open(outputitp, 'a') as f:
+                    f.writelines('\n')
+                    f.writelines(LL+'\n')
+                part_vs=0
+                part_exclusions=1
+                #print("angles")
+                continue
             else:
                 # like bonds and angles
                 dihedral_idx=LL.split()[0:4]
@@ -335,7 +319,6 @@ def main(argv):
                     f.writelines('\n')
                 #print(dihedral_ff)
                 continue
-        
         # Enter virtual site section: nothing to do I guess, just copy
         if part_vs==1:
             if LL[0]==";":
@@ -350,6 +333,14 @@ def main(argv):
                 part_exclusions=1
                 #print("angles")
                 continue
+            elif LL=="[ virtual_sites3 ]":
+                with open(outputitp, 'a') as f:
+                    f.writelines('\n')
+                    f.writelines(LL+'\n')
+                part_dihedrals=0
+                part_vs=1
+                #print("VS")
+                continue
             else:
                 pairs_out=LL.split()
                 #print(pairs_out)
@@ -358,7 +349,6 @@ def main(argv):
                         f.write('    '+"".join(line) + "\t")
                     f.writelines('\n')
                 continue
-        
         # Enter exclusions section: nothing to do I guess, just copy
         if part_exclusions==1:
             if LL[0]==";":
@@ -381,8 +371,6 @@ def main(argv):
                         f.write('    '+"".join(line) + "\t")
                     f.writelines('\n')
                 continue
-
-
 #print(dict_atoms)
 
 if __name__ == "__main__":
