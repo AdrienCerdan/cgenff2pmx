@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-import sys, getopt
+import sys, getopt, os, re, shutil
 
 def read_bonds(bond,prm_file):
     file2 = open(prm_file, 'r')
@@ -88,24 +88,31 @@ def main(argv):
 
     inputitp = ''
     inputprm = ''
+    inputpdb = ''
     outputitp = ''
+    pdbispresent=0
     try:
-        opts, args = getopt.getopt(argv,"hi:p:o:",["iitpfile=","iprmfile=","oitpfile="])
+        opts, args = getopt.getopt(argv,"hs:i:p:o:",["iitpfile=","iprmfile=","ipdbfile=","oitpfile="])
     except getopt.GetoptError:
-        print('cgenff2pmx.py -i <inputfileITP> -p <inputfilePRM> -o <outputfileITP>')
+        print('cgenff2pmx.py -i <inputfileITP> -p <inputfilePRM> -s <inputfilePDB> -o <outputfileITP>')
         sys.exit(2)
     for opt, arg in opts:
         if opt == '-h':
-            print('cgenff2pmx.py -i <inputfileITP> -p <inputfilePRM> -o <outputfileITP>')
+            print('cgenff2pmx.py -i <inputfileITP> -p <inputfilePRM> -s <inputfilePDB> -o <outputfileITP>')
             sys.exit()
         elif opt in ("-i", "--iitpfile"):
             inputitp = arg
         elif opt in ("-p", "--iprmfile"):
             inputprm = arg
+        elif opt in ("-s", "--ipdbfile"):
+            inputpdb = arg
+            pdbispresent=1
         elif opt in ("-o", "--oitpfile"):
             outputitp = arg
     print('Input itp file is ', inputitp)
     print('Input prm file is ', inputprm)
+    if pdbispresent==1:
+        print('Input pdb file is ', inputpdb)
     print('Output itp file is ', outputitp)
 
     file1 = open(inputitp, 'r')
@@ -180,14 +187,29 @@ def main(argv):
                 #print(LL)
                 atom_line=LL.split()
                 if LL.split()[4][0]=='L':
-                    print("LP detected, replaced by EP for atom: ",LL.split()[0])
-                    print("Change it accordingly in the .pdb file")
-                    print("Old line: ", atom_line)
-                    list_atom_name=list(atom_line[4])
-                    list_atom_name[0]="E"
-                    str_atom_name=''.join(list_atom_name)
-                    atom_line[4]=str_atom_name
-                    print("New line: ", atom_line)
+                    print("LP detected for atom: ",LL.split()[0])
+                    if pdbispresent==1:
+                        print("Old line: ", atom_line)
+                        list_atom_name=list(atom_line[4])
+                        list_atom_name[0]="E"
+                        str_atom_name=''.join(list_atom_name)
+                        atom_line[4]=str_atom_name
+                        print("New line: ", atom_line)
+                        backuppdb=inputpdb+".bck"
+                        print("Backup .pdb: ",inputpdb," into :",backuppdb)
+                        shutil.copyfile(inputpdb, backuppdb)
+                        print("Modifying .pdb")
+                        with open(inputpdb, "r") as sources:
+                            lines = sources.readlines()
+                        with open(inputpdb, "w") as sources:
+                            for line in lines:
+                                sources.write(re.sub("LP", 'EP', line))
+                    else:
+                        if os.path.exists(outputitp):
+                            os.remove(outputitp)
+                        else:
+                            print("The file does not exist")
+                        sys.exit("ERROR\nLP is detected and needs to be corrected in .pdb but the file was not provided.\nPlease submit a .pdb with the option -s file.pdb.\nAbnormal termination. ERROR.")
                 with open(outputitp, 'a') as f:
                     for line in atom_line:
                         f.write("\t"+"".join(line))
