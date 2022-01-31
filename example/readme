@@ -1,1 +1,0 @@
-python genff2pmx.py -i b.itp -p b.prm -o testout.itp

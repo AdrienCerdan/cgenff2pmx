@@ -1,0 +1,15 @@
+Create conda environment (with python 2.7):
+   conda create -name py27 python=2.7
+   conda activate py27
+   conda install numpy matplotlib scipy pip jupyter pandas
+   conda install -c rdkit rdkit
+
+Install pmx master (https://github.com/deGrootLab/pmx)
+  git clone https://github.com/deGrootLab/pmx pmx
+  cd pmx
+  pip install .
+  
+
+
+
+python genff2pmx.py -i b.itp -p b.prm -o testout.itp
