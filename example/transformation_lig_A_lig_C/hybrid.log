@@ -1,7 +1,7 @@
 make_hybrid__log_> Reading ligand 1 from: "../lig_A/mol_ini.pdb"
 make_hybrid__log_> Reading ligand 2 from: "../lig_C/mol_ini.pdb"
 make_hybrid__log_> Reading itp file 1 from: "../lig_A/lig_A.itp"
-make_hybrid__log_> Reading itp file 2 from: "../lig_C/lig_C.itp"
+make_hybrid__log_> Reading itp file 2 from: "../lig_C/lig_CCC.itp"
 make_hybrid__log_> Assigning forcefield parameters....
 make_hybrid__log_> Making pairs.....
 make_hybrid__log_> Reading file with atom pairs: "pairs1.dat"

@@ -178,8 +178,21 @@ def main(argv):
                 continue
             else:
                 #print(LL)
+                atom_line=LL.split()
+                if LL.split()[4][0]=='L':
+                    print("LP detected, replaced by EP for atom: ",LL.split()[0])
+                    print("Change it accordingly in the .pdb file")
+                    print("Old line: ", atom_line)
+                    list_atom_name=list(atom_line[4])
+                    list_atom_name[0]="E"
+                    str_atom_name=''.join(list_atom_name)
+                    atom_line[4]=str_atom_name
+                    print("New line: ", atom_line)
                 with open(outputitp, 'a') as f:
-                    f.writelines('    '+LL+'\n')
+                    for line in atom_line:
+                        f.write('    '+"".join(line) + "\t")
+                    f.writelines('\n')
+                    #f.writelines('    '+LL+'\n')
                 # Create the dictionary where atom number is associated to an atom type to read .prm
                 idx_atom=int(LL.split()[0])
                 atom_type=LL.split()[1]
