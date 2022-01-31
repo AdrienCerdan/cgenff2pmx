@@ -1,14 +1,20 @@
 Create conda environment (with python 2.7):
-   conda create -name py27 python=2.7
-   conda activate py27
-   conda install numpy matplotlib scipy pip jupyter pandas
-   conda install -c rdkit rdkit
+	conda create -name py27 python=2.7
+	conda activate py27
+	conda install numpy matplotlib scipy pip jupyter pandas
+	conda install -c rdkit rdkit
 
 Install pmx master (https://github.com/deGrootLab/pmx)
-  git clone https://github.com/deGrootLab/pmx pmx
-  cd pmx
-  pip install .
+	git clone https://github.com/deGrootLab/pmx pmx
+	cd pmx
+	pip install .
   
+Download CGENFF files (http://mackerell.umaryland.edu/charmm_ff.shtml#gromacs)
+
+Download cgenff_charmm2gmx_py2_nx1.py to convert CHARMM to GROMACS (http://mackerell.umaryland.edu/charmm_ff.shtml#gromacs)
+	pip install networkx==1.11
+
+Produce (e.g. Marvin Sketch) or download .mol2 files
 
 
 
