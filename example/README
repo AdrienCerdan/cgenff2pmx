@@ -9,7 +9,7 @@ Install pmx master (https://github.com/deGrootLab/pmx)
 	cd pmx
 	pip install .
   
-Download CGENFF files (http://mackerell.umaryland.edu/charmm_ff.shtml#gromacs)
+Download CGENFF files (http://mackerell.umaryland.edu/charmm_ff.shtml#gromacs) (e.g. charmm36-feb2021.ff.tgz)
 
 Download cgenff_charmm2gmx_py2_nx1.py to convert CHARMM to GROMACS (http://mackerell.umaryland.edu/charmm_ff.shtml#gromacs)
 	pip install networkx==1.11
