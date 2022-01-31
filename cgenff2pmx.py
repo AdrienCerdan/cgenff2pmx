@@ -190,7 +190,7 @@ def main(argv):
                     print("New line: ", atom_line)
                 with open(outputitp, 'a') as f:
                     for line in atom_line:
-                        f.write('    '+"".join(line) + "\t")
+                        f.write("\t"+"".join(line))
                     f.writelines('\n')
                     #f.writelines('    '+LL+'\n')
                 # Create the dictionary where atom number is associated to an atom type to read .prm
@@ -221,7 +221,7 @@ def main(argv):
                 bond_ff[1]=bond_idx[1]
                 with open(outputitp, 'a') as f:
                     for line in bond_ff:
-                        f.write('    '+"".join(line) + "\t")
+                        f.write("\t"+"".join(line))
                     f.writelines('\n')
                 #print(bond_ff)
                 continue
@@ -244,7 +244,7 @@ def main(argv):
                 #print(pairs_out)
                 with open(outputitp, 'a') as f:
                     for line in pairs_out:
-                        f.write('    '+"".join(line) + "\t")
+                        f.write("\t"+"".join(line))
                     f.writelines('\n')
                 continue
         # Enter Angles section: use read_angles to extract them from .prm
@@ -272,7 +272,7 @@ def main(argv):
                 angle_ff[2]=angle_idx[2]
                 with open(outputitp, 'a') as f:
                     for line in angle_ff:
-                        f.write('    '+"".join(line) + "\t")
+                        f.write("\t"+"".join(line))
                     f.writelines('\n')
                 #print(angle_ff)
                 continue
@@ -328,7 +328,7 @@ def main(argv):
                 dihedral_ff[3]=dihedral_idx[3]
                 with open(outputitp, 'a') as f:
                     for line in dihedral_ff:
-                        f.write('    '+"".join(line) + "\t")
+                        f.write("\t"+"".join(line))
                     f.writelines('\n')
                 #print(dihedral_ff)
                 continue
@@ -359,7 +359,7 @@ def main(argv):
                 #print(pairs_out)
                 with open(outputitp, 'a') as f:
                     for line in pairs_out:
-                        f.write('    '+"".join(line) + "\t")
+                        f.write("\t"+"".join(line))
                     f.writelines('\n')
                 continue
         # Enter exclusions section: nothing to do I guess, just copy
@@ -381,7 +381,7 @@ def main(argv):
                 #print(pairs_out)
                 with open(outputitp, 'a') as f:
                     for line in pairs_out:
-                        f.write('    '+"".join(line) + "\t")
+                        f.write("\t"+"".join(line))
                     f.writelines('\n')
                 continue
 #print(dict_atoms)
