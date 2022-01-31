@@ -16,6 +16,27 @@ Download cgenff_charmm2gmx_py2_nx1.py to convert CHARMM to GROMACS (http://macke
 
 Produce (e.g. Marvin Sketch) or download .mol2 files
 
+Get cgenff parameters for you .mol (e.g. via https://cgenff.umaryland.edu/)
+	select "Include parameters that are already in CGenFF"
+	download the .str file
+	make sure it contains a residue name
+
+Convert the .str from CHARMM to GROMACS format
+	python ../cgenff_charmm2gmx_py2.py MOL A.mol2 A.str ../charmm36-feb2021.ff
 
 
-python genff2pmx.py -i b.itp -p b.prm -o testout.itp
+Merge the newly generate .itp and .prm together (https://github.com/AdrienCerdan/cgenff2pmx)
+	python ../../cgenff2pmx.py -i mol.itp -p mol.prm -o lig_A.itp
+
+Repeat the previous step for the second small molecule
+
+Use pmx to find the morphing path
+	python ~/Softwares/pmx-py2/pmx/scripts/ligands/atoms_to_morph_rdkit2018.py -i1 ../lig_A/mol_ini.pdb -i2 ../lig_B/mol_ini.pdb -H2H	
+
+Use pmx to create the hybrid topology based on previous morphing
+	python ~/Softwares/pmx-py2/pmx/scripts/ligands/make_hybrid.py -l1 ../lig_A/mol_ini.pdb -l2 ../lig_B/mol_ini.pdb -itp1 ../lig_A/lig_A.itp -itp2 ../lig_B/lig_B.itp -pairs pairs1.dat -oa merged.pdb -oitp MOL.itp -ffitp ffmerged.itp -scDUMd 0.1	
+
+End of the hybrid topology generation
+	MOL.itp (the hybrid topology)
+	ffmerged.itp (new atom types to declare for dummy atoms)
+	merged.pdb (the new .pdb containing the hybrid small molecule)
