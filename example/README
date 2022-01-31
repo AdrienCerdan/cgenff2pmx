@@ -26,7 +26,7 @@ Convert the .str from CHARMM to GROMACS format
 
 
 Merge the newly generate .itp and .prm together (https://github.com/AdrienCerdan/cgenff2pmx)
-	python ../../cgenff2pmx.py -i mol.itp -p mol.prm -o lig_A.itp
+	python ../../cgenff2pmx.py -i mol.itp -p mol.prm -o lig_A.itp -s mol_ini.pdb
 
 Repeat the previous step for the second small molecule
 
